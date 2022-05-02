@@ -1,6 +1,9 @@
 import { Quote } from "./Quote.js";
 
 class Game {
+    currentStep = 0;
+    lastStep = 8;
+
     quotes = [
         {
             text: "Avatar",
@@ -95,7 +98,13 @@ class Game {
 
     guess(letter, event) {
         event.target.disabled = true
-        this.quote.guess(letter);
+        if (this.quote.guess(letter)) {
+            this.drawQuote()
+        } else {
+            this.currentStep++
+            document.getElementsByClassName('step')[this.currentStep].style.opacity = 1;
+
+        }
         this.drawQuote();
 
     };
@@ -112,11 +121,11 @@ class Game {
 
     drawQuote() {
         const content = this.quote.getContent().toLowerCase();
-        console.log(content)
         this.wordWrapper.innerHTML = content
     }
 
     start() {
+        document.getElementsByClassName('step')[this.currentStep].style.opacity = 1;
         this.drawLetters();
         this.drawQuote();
     }
