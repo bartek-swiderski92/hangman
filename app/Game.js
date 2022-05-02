@@ -1,5 +1,6 @@
-class Game {
+import { Quote } from "./Quote.js";
 
+class Game {
     quotes = [
         {
             text: "Avatar",
@@ -12,7 +13,7 @@ class Game {
 
         },
         {
-            text: "300",
+            text: "Gladiator",
             category: "Film"
 
         },
@@ -37,12 +38,12 @@ class Game {
 
         },
         {
-            text: "Rogue One: A Star Wars Story",
+            text: "Star Wars",
             category: "Film"
 
         },
         {
-            text: "Assassin's Creed",
+            text: "Iron Man",
             category: "Film"
         },
         {
@@ -88,13 +89,14 @@ class Game {
         this.lettersWrapper = lettersWrapper;
 
         const { text, category } = this.quotes[Math.floor(Math.random() * this.quotes.length)];
-        this.categoryWrapper.innerHtml = category
-        console.log(text, category)
+        this.categoryWrapper.innerHTML = category;
+        this.quote = new Quote(text);
     };
 
     guess(letter) {
         console.log(letter)
     };
+
     drawLetters() {
         for (let i = 0; i < 26; i++) {
             const label = (i + 10).toString(36);
@@ -104,7 +106,20 @@ class Game {
             this.lettersWrapper.appendChild(button)
         }
     };
+
     start() {
         this.drawLetters();
+        const content = this.quote.getContent();
+        this.wordWrapper.innerHTML = content
+        console.log(content);
     }
 }
+
+const game = new Game({
+    output: document.getElementById('output'),
+    wordWrapper: document.getElementById('word'),
+    categoryWrapper: document.getElementById('category'),
+    lettersWrapper: document.getElementById('letters'),
+});
+
+game.start()
