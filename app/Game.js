@@ -2,7 +2,7 @@ import { Quote } from "./Quote.js";
 
 class Game {
     currentStep = 0;
-    lastStep = 8;
+    lastStep = 7;
 
     quotes = [
         {
@@ -103,7 +103,12 @@ class Game {
         } else {
             this.currentStep++
             document.getElementsByClassName('step')[this.currentStep].style.opacity = 1;
-
+            document.getElementsByClassName('step')[this.currentStep - 1].style.opacity = 0.1;
+            if (this.currentStep == this.lastStep) {
+                console.log('if');
+                this.loosing();
+                return
+            }
         }
         this.drawQuote();
 
@@ -121,7 +126,10 @@ class Game {
 
     drawQuote() {
         const content = this.quote.getContent().toLowerCase();
-        this.wordWrapper.innerHTML = content
+        this.wordWrapper.innerHTML = content;
+        if (!content.includes('_')) {
+            this.winning();
+        }
     }
 
     start() {
@@ -129,6 +137,18 @@ class Game {
         this.drawLetters();
         this.drawQuote();
     }
+
+    winning() {
+        this.wordWrapper.innerHTML = 'YOU WON! WELL DONE!';
+        this.lettersWrapper.innerHTML = '';
+    }
+
+    loosing() {
+        console.log('loosing');
+        this.wordWrapper.innerHTML = 'YOU LOST! TRY AGAIN!!';
+        this.lettersWrapper.innerHTML = '';
+    }
+
 }
 
 const game = new Game({
